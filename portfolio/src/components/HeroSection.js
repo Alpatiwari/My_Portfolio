@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function HeroSection() {
+const HeroSection = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
@@ -17,15 +19,26 @@ export default function HeroSection() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleNavigation = (path) => {
+    navigate(path);
   };
 
+  const scrollToNext = () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth'
+    });
+  };
+
+  const socialLinks = [
+    { icon: '⚡', href: 'https://github.com/Alpatiwari', label: 'GitHub' },
+    { icon: '💼', href: 'https://linkedin.com/in/alpatiwari', label: 'LinkedIn' },
+    { icon: '🐦', href: 'https://twitter.com/alpatiwari', label: 'Twitter' },
+    { icon: '✉️', href: 'mailto:alpa.tiwari@example.com', label: 'Email' },
+  ];
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
       <div className="text-center z-10 px-4 sm:px-6 lg:px-8">
         <div className={`transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
@@ -48,13 +61,13 @@ export default function HeroSection() {
 
           <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center mt-10 transform transition-all duration-1000 delay-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
             <button 
-              onClick={() => scrollToSection('projects')}
+              onClick={() => handleNavigation('/projects')}
               className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold text-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25"
             >
               View My Work
             </button>
             <button 
-              onClick={() => scrollToSection('contact')}
+              onClick={() => handleNavigation('/contact')}
               className="px-8 py-4 border-2 border-purple-400 text-purple-400 rounded-full font-semibold text-lg hover:bg-purple-400 hover:text-black transition-all duration-300 transform hover:scale-105"
             >
               Get In Touch
@@ -62,19 +75,16 @@ export default function HeroSection() {
           </div>
 
           <div className={`flex justify-center space-x-6 mt-12 transform transition-all duration-1000 delay-1500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
-            {[
-              { icon: '⚡', href: '#', label: 'GitHub' },
-              { icon: '💼', href: '#', label: 'LinkedIn' },
-              { icon: '🐦', href: '#', label: 'Twitter' },
-              { icon: '✉️', href: '#', label: 'Email' },
-            ].map(({ icon, href, label }, index) => (
+            {socialLinks.map((link, index) => (
               <a
                 key={index}
-                href={href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-2xl text-gray-400 hover:text-purple-400 transition-all duration-300 transform hover:scale-110 hover:rotate-12"
-                title={label}
+                title={link.label}
               >
-                {icon}
+                {link.icon}
               </a>
             ))}
           </div>
@@ -92,6 +102,10 @@ export default function HeroSection() {
       >
         <div className="w-96 h-96 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl" />
       </div>
+
+
     </section>
   );
-}
+};
+
+export default HeroSection;

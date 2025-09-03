@@ -1,23 +1,28 @@
 import React from 'react';
-import StarField from './components/StarField';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
+import './App.css';
+import AboutSection from './components/AboutSection'; 
 import ProjectsSection from './components/ProjectsSection';
-import { AboutSection } from './components/AboutSection';
-import { ContactSection } from './components/ContactSection';
-import { Footer } from './components/Footer';
+import ContactSection from './components/ContactSection';
+import HeroSection from './components/HeroSection';
+import ProcessSection from './components/ProcessSection';
 
-
-export default function App() {
+const App = () => {
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      <StarField />
-      <Navbar />
-      <HeroSection />
-      <AboutSection />
-      <ProjectsSection />
-      <ContactSection />
-      <Footer />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<HeroSection />} />
+          <Route path="/about" element={<AboutSection />} />
+          <Route path="/projects" element={<ProjectsSection />} />
+          <Route path="/contact" element={<ContactSection />} />
+          <Route path="/process" element={<ProcessSection />} />
+        </Routes>
+      </Router>
     </div>
   );
-}
+};
+
+export default App;
