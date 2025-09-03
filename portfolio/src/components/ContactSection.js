@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Mail, MapPin, Linkedin, Github, Twitter, Instagram, Camera } from "lucide-react";
 
 const ContactSection = ({ onNavigate }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -25,13 +26,11 @@ const ContactSection = ({ onNavigate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
       setFormData({ name: "", email: "", subject: "", message: "" });
-
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitted(false), 5000);
     }, 1500);
@@ -39,37 +38,60 @@ const ContactSection = ({ onNavigate }) => {
 
   const contactMethods = [
     {
-      icon: "📧",
+      icon: Mail,
       title: "Email",
-      value: "alpa.tiwari@example.com",
-      href: "mailto:alpa.tiwari@example.com",
+      value: "tiwarialpa2004@gmail.com",
+      href: "mailto:tiwarialpa2004@gmail.com",
       description: "Send me an email for business inquiries",
+      hoverColor: "group-hover:text-red-400"
     },
     {
-      icon: "📱",
-      title: "Phone",
-      value: "+91 98765 43210",
-      href: "tel:+919876543210",
-      description: "Call me for urgent matters",
-    },
-    {
-      icon: "📍",
+      icon: MapPin,
       title: "Location",
       value: "Delhi, India",
       href: "https://maps.google.com",
       description: "Available for local meetings",
+      hoverColor: "group-hover:text-green-400"
     },
     {
-      icon: "💼",
+      icon: Linkedin,
       title: "LinkedIn",
       value: "Connect with me",
       href: "https://linkedin.com/in/alpatiwari",
       description: "Let's connect professionally",
+      hoverColor: "group-hover:text-blue-400"
+    },
+  ];
+
+  const socialLinks = [
+    { 
+      icon: Github, 
+      href: "https://github.com/Alpatiwari", 
+      label: "GitHub",
+      hoverColor: "hover:text-gray-300" 
+    },
+    { 
+      icon: Linkedin, 
+      href: "https://linkedin.com/in/alpatiwari", 
+      label: "LinkedIn",
+      hoverColor: "hover:text-blue-400"
+    },
+    { 
+      icon: Twitter, 
+      href: "https://twitter.com/alpatiwari", 
+      label: "Twitter",
+      hoverColor: "hover:text-blue-300"
+    },
+    {
+      icon: Instagram,
+      href: "https://instagram.com/alpatiwari",
+      label: "Instagram",
+      hoverColor: "hover:text-pink-400"
     },
   ];
 
   return (
-    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-black">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div
@@ -108,32 +130,38 @@ const ContactSection = ({ onNavigate }) => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {contactMethods.map((method, index) => (
-                <a
-                  key={index}
-                  href={method.href}
-                  target={
-                    method.href.startsWith("http") ? "_blank" : undefined
-                  }
-                  rel={
-                    method.href.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
-                  className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:border-purple-500/50 transition-all duration-300 transform hover:scale-105 group"
-                >
-                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                    {method.icon}
-                  </div>
-                  <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-purple-400 transition-colors">
-                    {method.title}
-                  </h3>
-                  <p className="text-purple-400 font-medium mb-1">
-                    {method.value}
-                  </p>
-                  <p className="text-gray-500 text-sm">{method.description}</p>
-                </a>
-              ))}
+              {contactMethods.map((method, index) => {
+                const IconComponent = method.icon;
+                return (
+                  <a
+                    key={index}
+                    href={method.href}
+                    target={
+                      method.href.startsWith("http") ? "_blank" : undefined
+                    }
+                    rel={
+                      method.href.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                    className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:border-purple-500/50 transition-all duration-300 transform hover:scale-105 group"
+                  >
+                    <div className="mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <IconComponent 
+                        size={32} 
+                        className={`text-gray-400 ${method.hoverColor} transition-colors duration-300`} 
+                      />
+                    </div>
+                    <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                      {method.title}
+                    </h3>
+                    <p className="text-purple-400 font-medium mb-1">
+                      {method.value}
+                    </p>
+                    <p className="text-gray-500 text-sm">{method.description}</p>
+                  </a>
+                );
+              })}
             </div>
 
             {/* Social Links */}
@@ -142,27 +170,21 @@ const ContactSection = ({ onNavigate }) => {
                 Follow Me
               </h3>
               <div className="flex space-x-4">
-                {[
-                  { icon: "⚡", href: "https://github.com", label: "GitHub" },
-                  { icon: "💼", href: "https://linkedin.com", label: "LinkedIn" },
-                  { icon: "🐦", href: "https://twitter.com", label: "Twitter" },
-                  {
-                    icon: "📷",
-                    href: "https://instagram.com",
-                    label: "Instagram",
-                  },
-                ].map(({ icon, href, label }, index) => (
-                  <a
-                    key={index}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-2xl text-gray-400 hover:text-purple-400 transition-all duration-300 transform hover:scale-110 hover:rotate-12"
-                    title={label}
-                  >
-                    {icon}
-                  </a>
-                ))}
+                {socialLinks.map((social, index) => {
+                  const IconComponent = social.icon;
+                  return (
+                    <a
+                      key={index}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`text-gray-400 ${social.hoverColor} transition-all duration-300 transform hover:scale-110 hover:-translate-y-1`}
+                      title={social.label}
+                    >
+                      <IconComponent size={24} />
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -179,7 +201,6 @@ const ContactSection = ({ onNavigate }) => {
               <h2 className="text-3xl font-bold text-white mb-6">
                 Send a Message
               </h2>
-
               {submitted && (
                 <div className="mb-6 p-4 bg-green-500/20 border border-green-500/50 rounded-lg">
                   <p className="text-green-400 font-semibold">
@@ -190,7 +211,6 @@ const ContactSection = ({ onNavigate }) => {
                   </p>
                 </div>
               )}
-
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
@@ -230,7 +250,6 @@ const ContactSection = ({ onNavigate }) => {
                     />
                   </div>
                 </div>
-
                 <div>
                   <label
                     htmlFor="subject"
@@ -249,7 +268,6 @@ const ContactSection = ({ onNavigate }) => {
                     placeholder="Project inquiry, collaboration, etc."
                   />
                 </div>
-
                 <div>
                   <label
                     htmlFor="message"
@@ -268,7 +286,6 @@ const ContactSection = ({ onNavigate }) => {
                     placeholder="Tell me about your project, timeline, budget, or any other details..."
                   />
                 </div>
-
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -325,7 +342,6 @@ const ContactSection = ({ onNavigate }) => {
             </h2>
             <p className="text-gray-400">Some common questions I get asked</p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               {
